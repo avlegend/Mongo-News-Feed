@@ -20,6 +20,9 @@ app.set("view engine", "handlebars");
 // Make public a static folder
 app.use(express.static("public"));
 
+// Connect to the Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/scraperData", { useNewUrlParser: true});
+
 // ADD ROUTES HERE
 app.get("/", (req, res) => {
   db.Article
@@ -80,9 +83,6 @@ app.delete("/api/comment/:commentId", (req, res) => {
   })
   .catch(err => res.json(err));
 });
-
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/scraperData", { useNewUrlParser: true});
 
 
 
