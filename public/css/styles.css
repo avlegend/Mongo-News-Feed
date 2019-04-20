@@ -1,0 +1,28 @@
+.commentContainer {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    margin-bottom:2%;
+}
+
+.commentContainer:hover  i {
+    opacity:1;
+}
+
+.commentContainer > i {
+    cursor: pointer;
+    opacity: 0;
+    margin-left:3%;
+    transition:all 0.5s;
+    color:red;
+    transform:scale(1) translateY(0);
+}
+
+.commentContainer > i:active {
+    transform:scale(0.9) translateY(3px);
+    
+}
+
+.commentContainer > p {
+    margin-bottom:0;
+}

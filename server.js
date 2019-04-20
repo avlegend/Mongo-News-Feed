@@ -20,11 +20,13 @@ app.set("view engine", "handlebars");
 // Make public a static folder
 app.use(express.static("public"));
 
+// ADD ROUTES HERE
 app.get("/", (req, res) => {
   db.Article
   .find({})
+  .populate("comments")
   .then(dbArticles =>{
-    //res.json(dbArticles)
+   // res.json(dbArticles)
     res.render("home", {articles: dbArticles});
   })
 });
@@ -55,14 +57,34 @@ app.get("/scrape", (req, res) => {
       }).catch(err => console.log(err) )
       
     });
-    res.send("scraped data from ign")
+    //res.send("scraped data from ign")
+});
+
+app.post("/api/comment/:articleId", (req, res) => {
+  db.Comment
+  .create({body: req.body.body, user: req.body.user})
+  .then(dbComment => {
+    //res.json(dbComment)
+    return db.Article.findOneAndUpdate({_id: req.params.articleId}, {$push: { comments: dbComment._id}}, {new: true})
+  })
+  .then(() => res.redirect("/"))
+  .catch(err => res.json(err));
+});
+
+app.delete("/api/comment/:commentId", (req, res) => {
+  db.Comment
+  .deleteOne({id:req.body.id})
+  .then((response) => {
+    //res.redirect("/")
+    res.json(response);
+  })
+  .catch(err => res.json(err));
 });
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/scraperData", { useNewUrlParser: true});
 
 
-// ADD ROUTES HERE
 
 // Listen on port 3000
 app.listen(PORT, () => { console.log(`App running on port http://localhost:${PORT}`) });

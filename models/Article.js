@@ -13,7 +13,11 @@ const articleSchema = new Schema({
     createdDate: {
         type: Date,
         default: Date.now
-    }
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+         ref: "Comment"
+    }]
 });
 
 const Article = mongoose.model("Article", articleSchema);

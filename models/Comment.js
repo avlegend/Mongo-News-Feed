@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
     user: {
         type: String,
-        required: true
+        required: false
     },
     body: {
         type: String,
@@ -12,7 +12,7 @@ const commentSchema = new Schema({
     },
     articleId: {
         type: Schema.Types.ObjectId,
-        ref: "Headline"
+        ref: "Comment"
       },
     createdDate: {
         type: Date,
